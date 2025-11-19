@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect, useMemo } from "react";
-import { Mail, Phone, Linkedin, Github, MapPin, Code } from "lucide-react";
+import { Mail, Phone, Linkedin, Github, MapPin, Code, GraduationCap, Briefcase, Building, BarChart3, Download, Languages } from "lucide-react";
 import {
   SiJavascript,
   SiTypescript,
@@ -21,7 +21,6 @@ import {
 } from "react-icons/si";
 import {
   Card,
-  CardAction,
   CardContent,
   CardDescription,
   CardFooter,
@@ -29,10 +28,79 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { LuBriefcase } from "react-icons/lu";
+import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from "@/components/ui/carousel";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+
+// Sistema de traducciones
+const translations = {
+  es: {
+    aboutMe: "Sobre Mí",
+    aboutMeText: "Ingeniero en Ciencias Informáticas especializado en desarrollo frontend con Angular y Next.js, en transición hacia el desarrollo fullstack. Actualmente expandiendo mis habilidades en backend con Node.js, Express y Sequelize para construcción de APIs REST. Busco oportunidades para aplicar y ampliar mis conocimientos en proyectos desafiantes, con el objetivo de consolidarme como desarrollador fullstack.",
+    contact: "Contacto",
+    downloadCV: "Descargar CV",
+    email: "Email",
+    phone: "Teléfono",
+    technologies: "Tecnologías y Habilidades",
+    education: "Formación",
+    educationText: "Ingeniero en Ciencias Informáticas - Universidad de las Ciencias Informáticas de Cuba | Graduado: Diciembre 2024",
+    experience: "Experiencia",
+    experienceText: "Centro de Informatización Gobierno-Empresa (UCI)",
+    experienceDuration: "Enero 2025 - Presente · Desarrollador Frontend",
+    projects: "Proyectos",
+    location: "UCI/Habana, Cuba",
+    noImages: "No hay imágenes",
+    viewRepo: "Ver repositorio en GitHub",
+    lightMode: "Light Mode",
+    darkMode: "Dark Mode",
+    spanish: "Español",
+    english: "English",
+    projectDescriptions: {
+      SGIndPAn: "Sistema para gestionar diferentes panaderias, donde se controlan productos, turnos, trabajadores y ventas. El sistema muestra resumenes de ventas mensuales y anuales ademas de permitir mover los trabajadores entre los difernetes turnos."
+    },
+    skillLevels: {
+      "Medio-Alto": "Medio-Alto",
+      "Medio": "Medio",
+      "Medio-Bajo": "Medio-Bajo"
+    }
+  },
+  en: {
+    aboutMe: "About Me",
+    aboutMeText: "Computer Science Engineer specialized in frontend development with Angular and Next.js, transitioning to fullstack development. Currently expanding my backend skills with Node.js, Express and Sequelize for REST API construction. Seeking opportunities to apply and expand my knowledge in challenging projects, with the goal of establishing myself as a fullstack developer.",
+    contact: "Contact",
+    downloadCV: "Download CV",
+    email: "Email",
+    phone: "Phone",
+    technologies: "Technologies and Skills",
+    education: "Education",
+    educationText: "Computer Science Engineer - University of Informatics Sciences of Cuba | Graduated: December 2024",
+    experience: "Experience",
+    experienceText: "Government-Business Informatization Center (UCI)",
+    experienceDuration: "January 2025 - Present · Frontend Developer",
+    projects: "Projects",
+    location: "UCI/Havana, Cuba",
+    noImages: "No images",
+    viewRepo: "View repository on GitHub",
+    lightMode: "Light Mode",
+    darkMode: "Dark Mode",
+    spanish: "Spanish",
+    english: "English",
+    projectDescriptions: {
+      SGIndPAn: "System to manage different bakeries, where products, shifts, workers and sales are controlled. The system shows monthly and annual sales summaries and allows moving workers between different shifts."
+    },
+    skillLevels: {
+      "Medio-Alto": "Medium-High",
+      "Medio": "Medium",
+      "Medio-Bajo": "Medium-Low"
+    }
+  }
+};
 
 export default function Home() {
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(true);
   const [themeColor, setThemeColor] = useState("hsl(214,84%,56%)");
+  const [isSpanish, setIsSpanish] = useState(true);
+
+  const t = isSpanish ? translations.es : translations.en;
 
   useEffect(() => {
     document.documentElement.setAttribute(
@@ -46,94 +114,142 @@ export default function Home() {
     setDarkMode(!darkMode);
   };
 
+  const toggleLanguage = () => {
+    setIsSpanish(!isSpanish);
+  };
+
   const handleColorChange = (color: any) => {
     setThemeColor(color);
   };
 
   const technologies = useMemo(() => [
-    { name: "JavaScript", icon: SiJavascript, color: "#F7DF1E", level: "Medio-Alto" },
-    { name: "TypeScript", icon: SiTypescript, color: "#3178C6", level: "Medio-Alto" },
-    { name: "HTML5", icon: SiHtml5, color: "#E34F26", level: "Medio" },
-    { name: "CSS3", icon: SiCss3, color: "#1572B6", level: "Medio" },
-    { name: "Angular", icon: SiAngular, color: "#DD0031", level: "Medio-Alto" },
-    { name: "Next.js", icon: SiNextdotjs, color: "#000000", level: "Medio" },
-    { name: "Node.js", icon: SiNodedotjs, color: "#339933", level: "Medio-Bajo" },
-    { name: "Express", icon: SiExpress, color: "#000000", level: "Medio-Bajo" },
-    { name: "PostgreSQL", icon: SiPostgresql, color: "#4169E1", level: "Medio" },
-    { name: "Sequelize", icon: SiSequelize, color: "#52B0E7", level: "Medio-Bajo" },
-    { name: "Bootstrap", icon: SiBootstrap, color: "#7952B3", level: "Medio-Alto" },
-    { name: "Tailwind CSS", icon: SiTailwindcss, color: "#06B6D4", level: "Medio-Bajo" },
-    { name: "Git", icon: SiGit, color: "#F05032", level: "Medio" },
-    { name: "GitHub", icon: SiGithub, color: "#181717", level: "Medio" },
-    { name: "GitLab", icon: SiGitlab, color: "#FC6D26", level: "Medio" },
-  ], []);
+    { name: "Angular", icon: SiAngular, color: "#DD0031", level: isSpanish ? "Medio-Alto" : "Medium-High" },
+    { name: "Next.js", icon: SiNextdotjs, color: "#000000", level: isSpanish ? "Medio" : "Medium" },
+    { name: "Express", icon: SiExpress, color: "#000000", level: isSpanish ? "Medio-Bajo" : "Medium-Low" },
+    { name: "PostgreSQL", icon: SiPostgresql, color: "#4169E1", level: isSpanish ? "Medio" : "Medium" },
+    { name: "Bootstrap", icon: SiBootstrap, color: "#7952B3", level: isSpanish ? "Medio-Alto" : "Medium-High" },
+    { name: "Tailwind CSS", icon: SiTailwindcss, color: "#06B6D4", level: isSpanish ? "Medio-Bajo" : "Medium-Low" },
+    { name: "Git", icon: SiGit, color: "#F05032", level: isSpanish ? "Medio" : "Medium" },
+  ], [isSpanish]);
 
   const proyectos = useMemo(() => [
     {
       name: "SGIndPAn", 
-      imagen: "", 
-      description: "Sistema para gestionar diferentes panaderias, donde se controlan productos, turnos, trabajadores y ventas. El sistema muestra resumenes de ventas mensuales y anuales ademas de permitir mover los trabajadores entre los difernetes turnos.", 
+      imagenes: ["SGINDPAn.png","pan1.png","pan2.png"], 
+      description: t.projectDescriptions.SGIndPAn, 
       technologies: [
-        technologies[4], technologies[7], technologies[8], technologies[9], technologies[10], technologies[12],
+        technologies[0], technologies[2], technologies[3], technologies[4], technologies[6],
       ],
-      githubUrl: "https://github.com/AngelE2610/SGIndPan"
+      githubUrl: "https://github.com/AngelE2610/SGIndPan-master"
     }
-  ], [technologies]);
+  ], [technologies, t]);
 
-  const ProjectCard = ({ proyecto }: { proyecto: typeof proyectos[0] }) => (
-    <Card className="flex flex-col h-full w-full max-w-none">
-      <CardHeader className="flex-shrink-0 pb-3">
-        <div className="flex justify-between items-start gap-4">
-          <div className="flex-1">
-            <CardTitle className="text-xl font-bold line-clamp-1">{proyecto.name}</CardTitle>
-            <CardDescription className="line-clamp-3 min-h-[60px] text-sm leading-relaxed mt-2">
-              {proyecto.description}
-            </CardDescription>
-          </div>
-          {proyecto.githubUrl && (
-            <a 
-              href={proyecto.githubUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex-shrink-0 p-2 rounded-md bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors hover:scale-110 transform duration-200"
-              title="Ver repositorio en GitHub"
-            >
-              <Github 
-                size={20} 
-                className="text-gray-700 dark:text-gray-300"
+  const ProjectCard = ({ proyecto }: { proyecto: typeof proyectos[0] }) => {
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+
+    const handleImageClick = (index: number) => {
+      setSelectedImageIndex(index);
+      setIsDialogOpen(true);
+    };
+
+    return (
+      <>
+        <Card className="flex flex-col h-full w-full max-w-none">
+          <CardHeader className="flex-shrink-0 pb-3">
+            <div className="flex justify-between items-start gap-4">
+              <div className="flex-1">
+                <CardTitle className="text-xl font-bold line-clamp-1">{proyecto.name}</CardTitle>
+                <CardDescription className="line-clamp-3 min-h-[60px] text-sm leading-relaxed mt-2">
+                  {proyecto.description}
+                </CardDescription>
+              </div>
+              {proyecto.githubUrl && (
+                <a 
+                  href={proyecto.githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-shrink-0 p-2 rounded-md bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors hover:scale-110 transform duration-200"
+                  title={t.viewRepo}
+                >
+                  <Github 
+                    size={20} 
+                    className="text-gray-700 dark:text-gray-300"
+                  />
+                </a>
+              )}
+            </div>
+          </CardHeader>
+          
+          <CardContent className="flex-grow flex items-center justify-center p-4">
+            {proyecto.imagenes.length > 0 ? (
+              <Carousel className="w-full max-w-full">
+                <CarouselContent>
+                  {proyecto.imagenes.map((imagen, index) => (
+                    <CarouselItem key={index}>
+                      <div 
+                        className="w-full h-56 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center p-1 cursor-pointer hover:opacity-90 transition-opacity"
+                        onClick={() => handleImageClick(index)}
+                      >
+                        <img 
+                          src={imagen} 
+                          alt={`${isSpanish ? 'Imagen' : 'Image'} ${index + 1} ${isSpanish ? 'del proyecto' : 'of project'} ${proyecto.name}`}
+                          className="w-full h-full object-contain rounded-lg"
+                          loading="lazy"
+                        />
+                      </div>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                {proyecto.imagenes.length > 1 && (
+                  <>
+                    <CarouselPrevious className="h-6 w-6 -translate-y-1/2" />
+                    <CarouselNext className="h-6 w-6 -translate-y-1/2" />
+                  </>
+                )}
+              </Carousel>
+            ) : (
+              <div className="w-full h-56 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center">
+                <span className="text-gray-500">{t.noImages}</span>
+              </div>
+            )}
+          </CardContent>
+          
+          <CardFooter className="flex-shrink-0 flex flex-wrap gap-2 justify-center pt-4 border-t">
+            {proyecto.technologies.map((tech, index) => {
+              const IconComponent = tech.icon;
+              return (
+                <span 
+                  key={`${tech.name}-${index}`}
+                  className="p-2 rounded-md bg-gray-100 dark:bg-gray-700 hover:scale-110 transition-transform duration-200"
+                  title={tech.name}
+                >
+                  <IconComponent style={{ color: tech.color }} size={20} />
+                </span>
+              );
+            })}
+          </CardFooter>
+        </Card>
+
+        {/* Dialog */}
+        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+          <DialogContent className="max-w-4xl min-w-[50vw] min-h-[50vh] bg-transparent border-none shadow-none">
+            <DialogTitle></DialogTitle>
+            <div className="relative w-full h-full flex items-center justify-center">
+              <img 
+                src={proyecto.imagenes[selectedImageIndex]} 
+                alt={`${isSpanish ? 'Imagen' : 'Image'} ${selectedImageIndex + 1} ${isSpanish ? 'del proyecto' : 'of project'} ${proyecto.name}`}
+                className="max-w-full max-h-[80vh] object-contain min-w-[50vw] min-h-[50vh] rounded-lg"
               />
-            </a>
-          )}
-        </div>
-      </CardHeader>
-      
-      <CardContent className="flex-grow flex items-center justify-center p-4">
-        <div className="w-full h-48 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center">
-          <img 
-            src={proyecto.imagen} 
-            alt={`Imagen del proyecto ${proyecto.name}`}
-            className="max-w-full max-h-full object-contain rounded-lg"
-            loading="lazy"
-          />
-        </div>
-      </CardContent>
-      
-      <CardFooter className="flex-shrink-0 flex flex-wrap gap-2 justify-center pt-4 border-t">
-        {proyecto.technologies.map((tech, index) => {
-          const IconComponent = tech.icon;
-          return (
-            <span 
-              key={`${tech.name}-${index}`}
-              className="p-2 rounded-md bg-gray-100 dark:bg-gray-700 hover:scale-110 transition-transform duration-200"
-              title={tech.name}
-            >
-              <IconComponent style={{ color: tech.color }} size={20} />
-            </span>
-          );
-        })}
-      </CardFooter>
-    </Card>
-  );
+              <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black/50 text-white px-3 py-1 rounded-full text-sm">
+                {selectedImageIndex + 1} / {proyecto.imagenes.length}
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
+      </>
+    );
+  };
 
   return (
     <div className={darkMode ? "dark-mode" : "light-mode"}>
@@ -147,10 +263,25 @@ export default function Home() {
               className="toggle-theme_icon"
             />
             <p id="toggle-text" className="toggle-theme_text">
-              {darkMode ? "Light Mode" : "Dark Mode"}
+              {darkMode ? t.lightMode : t.darkMode}
             </p>
           </div>
         </div>
+
+        {/* Switch de Idioma */}
+        <div className="switches">
+          <div className="toggle-theme" onClick={toggleLanguage}>
+            <Languages
+              size={20}
+              className="toggle-theme_icon"
+              style={{ color: "var(--primary-color)" }}
+            />
+            <p id="toggle-text" className="toggle-theme_text">
+              {isSpanish ? t.spanish : t.english}
+            </p>
+          </div>
+        </div>
+
         <div className="colors">
           <div
             data-colors="hsl(214,84%,56%)"
@@ -183,7 +314,7 @@ export default function Home() {
               <div className="aspect-square bg-gray-300 dark:bg-gray-700 rounded-lg flex items-center justify-center mb-4 w-full overflow-hidden">
                 <img
                   src="angel.jpg"
-                  alt="Foto de Perfil"
+                  alt={isSpanish ? "Foto de Perfil" : "Profile Photo"}
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -197,7 +328,7 @@ export default function Home() {
 
               <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
                 <MapPin size={16} />
-                <span className="text-sm">UCI/Habana, Cuba</span>
+                <span className="text-sm">{t.location}</span>
               </div>
             </div>
           </div>
@@ -209,33 +340,42 @@ export default function Home() {
                 className="text-2xl font-bold mb-4"
                 style={{ color: "var(--primary-color)" }}
               >
-                Sobre Mí
+                {t.aboutMe}
               </h2>
               <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-6">
-                Ingeniero en Ciencias Informáticas especializado en desarrollo
-                frontend con Angular y Next.js, en transición hacia el
-                desarrollo fullstack. Actualmente expandiendo mis habilidades en
-                backend con Node.js, Express y Sequelize para construcción de
-                APIs REST. Busco oportunidades para aplicar y ampliar mis
-                conocimientos en proyectos desafiantes, con el objetivo de
-                consolidarme como desarrollador fullstack.
+                {t.aboutMeText}
               </p>
 
               {/* Sección Contacto */}
               <div className="border-t pt-6 border-gray-200 dark:border-gray-700">
-                <h3
-                  className="text-xl font-semibold mb-4 flex items-center gap-2"
-                  style={{ color: "var(--primary-color)" }}
-                >
-                  <Phone size={20} />
-                  Contacto
-                </h3>
+                <div className="flex justify-between items-center mb-4">
+                  <h3
+                    className="text-xl font-semibold flex items-center gap-2"
+                    style={{ color: "var(--primary-color)" }}
+                  >
+                    <Phone size={20} />
+                    {t.contact}
+                  </h3>
+
+                  {/* Botón de descarga de CV */}
+                  <a
+                    href="/CV Angel Ernesto Valdes de la Cruz.pdf"
+                    download="Angel_Valdes_CV.pdf"
+                    className="flex items-center gap-2 px-4 py-2 rounded-md text-white font-medium hover:opacity-90 transition-opacity text-sm"
+                    style={{ backgroundColor: "var(--primary-color)" }}
+                  >
+                    <Download size={16} />
+                    {t.downloadCV}
+                  </a>
+                </div>
+
+                {/* Grid de información de contacto */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="flex items-center gap-3">
                     <Mail size={20} style={{ color: "var(--primary-color)" }} />
                     <div>
                       <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                        Email
+                        {t.email}
                       </p>
                       <a
                         href="mailto:angelvaldes9710@gmail.com"
@@ -254,7 +394,7 @@ export default function Home() {
                     />
                     <div>
                       <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                        Teléfono
+                        {t.phone}
                       </p>
                       <a
                         href="tel:+5354869089"
@@ -317,9 +457,9 @@ export default function Home() {
               style={{ color: "var(--primary-color)" }}
             >
               <Code size={20} className="themed-icon" />
-              Tecnologías y Habilidades
+              {t.technologies}
             </h3>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
               {technologies.map((tech, index) => (
                 <div
                   key={index}
@@ -335,9 +475,10 @@ export default function Home() {
                   </span>
                   <span
                     className={`text-xs font-medium ${
-                      tech.level === "Medio-Alto"
+                      tech.level.includes("Alto") || tech.level.includes("High")
                         ? "text-green-600 dark:text-green-400"
-                        : tech.level === "Medio"
+                        : tech.level.includes("Medio") ||
+                          tech.level.includes("Medium")
                         ? "text-yellow-600 dark:text-yellow-400"
                         : "text-blue-600 dark:text-blue-400"
                     }`}
@@ -350,6 +491,40 @@ export default function Home() {
           </div>
         </div>
 
+        {/* Formación y Experiencia */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 justify-items-center">
+          {/* Formación */}
+          <div className="pt-6">
+            <h3
+              className="text-xl font-semibold mb-6 flex items-center gap-2"
+              style={{ color: "var(--primary-color)" }}
+            >
+              <GraduationCap size={20} className="themed-icon" />
+              {t.education}
+            </h3>
+            <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-6">
+              {t.educationText}
+            </p>
+          </div>
+
+          {/* Experiencia */}
+          <div className="pt-6">
+            <h3
+              className="text-xl font-semibold mb-6 flex items-center gap-2"
+              style={{ color: "var(--primary-color)" }}
+            >
+              <BarChart3 size={20} className="themed-icon" />
+              {t.experience}
+            </h3>
+            <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-6">
+              {t.experienceText} <br />
+              {t.experienceDuration} (
+              <SiAngular size={16} color="#DD0031" className="inline mx-1" />
+              <small>v11</small>)
+            </p>
+          </div>
+        </div>
+
         {/* Proyectos */}
         <div className="w-full">
           <div className="pt-6">
@@ -358,7 +533,7 @@ export default function Home() {
               style={{ color: "var(--primary-color)" }}
             >
               <LuBriefcase size={20} className="themed-icon" />
-              Proyectos
+              {t.projects}
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6">
               {proyectos.map((proyecto, index) => (

@@ -4,7 +4,7 @@
 :root {
   --primary-color: hsl(214,84%,56%);
   --text-color: #333;
-  --bg-color: #c6c1c1;
+  --bg-color: #e9e9e9;
   --header-bg: #e1e2e4;
   --transition: all 0.3s ease;
 }
