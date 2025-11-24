@@ -123,13 +123,13 @@ export default function Home() {
   };
 
   const technologies = useMemo(() => [
-    { name: "Angular", icon: SiAngular, color: "#DD0031", level: isSpanish ? "Medio-Alto" : "Medium-High" },
-    { name: "Next.js", icon: SiNextdotjs, color: "#000000", level: isSpanish ? "Medio" : "Medium" },
-    { name: "Express", icon: SiExpress, color: "#000000", level: isSpanish ? "Medio-Bajo" : "Medium-Low" },
-    { name: "PostgreSQL", icon: SiPostgresql, color: "#4169E1", level: isSpanish ? "Medio" : "Medium" },
-    { name: "Bootstrap", icon: SiBootstrap, color: "#7952B3", level: isSpanish ? "Medio-Alto" : "Medium-High" },
-    { name: "Tailwind CSS", icon: SiTailwindcss, color: "#06B6D4", level: isSpanish ? "Medio-Bajo" : "Medium-Low" },
-    { name: "Git", icon: SiGit, color: "#F05032", level: isSpanish ? "Medio" : "Medium" },
+    { name: "Angular", icon: SiAngular, color: "#DD0031" },
+    { name: "Next.js", icon: SiNextdotjs, color: "#000000" },
+    { name: "Express", icon: SiExpress, color: "#000000" },
+    { name: "PostgreSQL", icon: SiPostgresql, color: "#4169E1" },
+    { name: "Bootstrap", icon: SiBootstrap, color: "#7952B3" },
+    { name: "Tailwind CSS", icon: SiTailwindcss, color: "#06B6D4" },
+    { name: "Git", icon: SiGit, color: "#F05032" },
   ], [isSpanish]);
 
   const proyectos = useMemo(() => [
@@ -472,18 +472,6 @@ export default function Home() {
                   />
                   <span className="text-sm font-medium text-gray-800 dark:text-gray-200">
                     {tech.name}
-                  </span>
-                  <span
-                    className={`text-xs font-medium ${
-                      tech.level.includes("Alto") || tech.level.includes("High")
-                        ? "text-green-600 dark:text-green-400"
-                        : tech.level.includes("Medio") ||
-                          tech.level.includes("Medium")
-                        ? "text-yellow-600 dark:text-yellow-400"
-                        : "text-blue-600 dark:text-blue-400"
-                    }`}
-                  >
-                    {tech.level}
                   </span>
                 </div>
               ))}
