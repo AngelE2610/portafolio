@@ -359,7 +359,7 @@ export default function Home() {
 
                   {/* Botón de descarga de CV */}
                   <a
-                    href="/Angel E. Valdes CV.pdf"
+                    href="/Angel E Valdes CV.pdf"
                     download="Angel_Valdes_CV.pdf"
                     className="flex items-center gap-2 px-4 py-2 rounded-md text-white font-medium hover:opacity-90 transition-opacity text-sm"
                     style={{ backgroundColor: "var(--primary-color)" }}
